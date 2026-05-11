@@ -1,16 +1,26 @@
+import React from "react";
 
-"use client"
+export default function AdminDashboard() {
+  return (
+    <div>
+      <h2 className="text-xl font-semibold">Faculty Evaluation — Admin View</h2>
+      <p className="mt-2">Admin controls for faculty evaluation.</p>
+    </div>
+  );
+}
+
+("use client");
 import { useState } from "react";
 import Link from "next/link";
-import { 
-  ChevronLeft, 
-  Download, 
-  Filter, 
+import {
+  ChevronLeft,
+  Download,
+  Filter,
   GraduationCap,
   TrendingUp,
   Users,
   BookOpen,
-  BarChart3
+  BarChart3,
 } from "lucide-react";
 import {
   BarChart,
@@ -31,11 +41,22 @@ import {
 } from "recharts";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
 
 // Mock data for the dashboard
 const categoryAverages = [
@@ -102,7 +123,9 @@ const questionBreakdown = [
 
 export function AdminDashboard() {
   const [selectedCourse, setSelectedCourse] = useState<string | null>("all");
-  const [selectedInstructor, setSelectedInstructor] = useState<string | null>("all");
+  const [selectedInstructor, setSelectedInstructor] = useState<string | null>(
+    "all",
+  );
   const [selectedTerm, setSelectedTerm] = useState<string | null>("spring2026");
 
   const overallAverage = 4.3;
@@ -126,8 +149,12 @@ export function AdminDashboard() {
                   <GraduationCap className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-semibold text-primary">Admin Dashboard</h1>
-                  <p className="text-sm text-muted-foreground">Faculty Evaluation Analytics</p>
+                  <h1 className="text-xl font-semibold text-primary">
+                    Admin Dashboard
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Faculty Evaluation Analytics
+                  </p>
                 </div>
               </div>
             </div>
@@ -148,7 +175,10 @@ export function AdminDashboard() {
               <span className="text-sm font-medium">Filters:</span>
             </div>
             <div className="flex flex-wrap gap-3 flex-1">
-              <Select value={selectedTerm} onValueChange={(value) => setSelectedTerm(value ?? "all")}>
+              <Select
+                value={selectedTerm}
+                onValueChange={(value) => setSelectedTerm(value ?? "all")}
+              >
                 <SelectTrigger className="w-45">
                   <SelectValue placeholder="Select term" />
                 </SelectTrigger>
@@ -159,19 +189,27 @@ export function AdminDashboard() {
                 </SelectContent>
               </Select>
 
-              <Select value={selectedInstructor} onValueChange={(value) => setSelectedInstructor(value ?? "all")}>
+              <Select
+                value={selectedInstructor}
+                onValueChange={(value) => setSelectedInstructor(value ?? "all")}
+              >
                 <SelectTrigger className="w-50">
                   <SelectValue placeholder="All Instructors" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Instructors</SelectItem>
                   <SelectItem value="mitchell">Dr. Sarah Mitchell</SelectItem>
-                  <SelectItem value="rodriguez">Prof. James Rodriguez</SelectItem>
+                  <SelectItem value="rodriguez">
+                    Prof. James Rodriguez
+                  </SelectItem>
                   <SelectItem value="chen">Dr. Emily Chen</SelectItem>
                 </SelectContent>
               </Select>
 
-              <Select value={selectedCourse} onValueChange={(value) => setSelectedCourse(value ?? "all")}>
+              <Select
+                value={selectedCourse}
+                onValueChange={(value) => setSelectedCourse(value ?? "all")}
+              >
                 <SelectTrigger className="w-45">
                   <SelectValue placeholder="All Courses" />
                 </SelectTrigger>
@@ -196,8 +234,12 @@ export function AdminDashboard() {
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Overall Average</p>
-                    <p className="text-3xl font-semibold text-primary">{overallAverage}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Overall Average
+                    </p>
+                    <p className="text-3xl font-semibold text-primary">
+                      {overallAverage}
+                    </p>
                     <p className="text-xs text-muted-foreground">out of 5.0</p>
                   </div>
                   <div className="bg-primary/10 p-3 rounded-full">
@@ -211,7 +253,9 @@ export function AdminDashboard() {
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Total Responses</p>
+                    <p className="text-sm text-muted-foreground">
+                      Total Responses
+                    </p>
                     <p className="text-3xl font-semibold">{totalResponses}</p>
                     <p className="text-xs text-muted-foreground">evaluations</p>
                   </div>
@@ -226,7 +270,9 @@ export function AdminDashboard() {
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Response Rate</p>
+                    <p className="text-sm text-muted-foreground">
+                      Response Rate
+                    </p>
                     <p className="text-3xl font-semibold">{responseRate}%</p>
                     <p className="text-xs text-green-600">+5% from last term</p>
                   </div>
@@ -241,9 +287,13 @@ export function AdminDashboard() {
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Courses Evaluated</p>
+                    <p className="text-sm text-muted-foreground">
+                      Courses Evaluated
+                    </p>
                     <p className="text-3xl font-semibold">3</p>
-                    <p className="text-xs text-muted-foreground">active courses</p>
+                    <p className="text-xs text-muted-foreground">
+                      active courses
+                    </p>
                   </div>
                   <div className="bg-muted p-3 rounded-full">
                     <BookOpen className="h-5 w-5 text-muted-foreground" />
@@ -267,14 +317,16 @@ export function AdminDashboard() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Category Averages</CardTitle>
-                    <CardDescription>Average scores by evaluation category</CardDescription>
+                    <CardDescription>
+                      Average scores by evaluation category
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={categoryAverages}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                        <XAxis 
-                          dataKey="category" 
+                        <XAxis
+                          dataKey="category"
                           angle={-45}
                           textAnchor="end"
                           height={120}
@@ -282,7 +334,11 @@ export function AdminDashboard() {
                         />
                         <YAxis domain={[0, 5]} />
                         <Tooltip />
-                        <Bar dataKey="average" fill="#1e40af" radius={[8, 8, 0, 0]} />
+                        <Bar
+                          dataKey="average"
+                          fill="#1e40af"
+                          radius={[8, 8, 0, 0]}
+                        />
                       </BarChart>
                     </ResponsiveContainer>
                   </CardContent>
@@ -292,7 +348,9 @@ export function AdminDashboard() {
                 <Card>
                   <CardHeader>
                     <CardTitle>Performance Radar</CardTitle>
-                    <CardDescription>Overall performance across all categories</CardDescription>
+                    <CardDescription>
+                      Overall performance across all categories
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -317,21 +375,27 @@ export function AdminDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>Question-by-Question Analysis</CardTitle>
-                  <CardDescription>Detailed scores for each evaluation question</CardDescription>
+                  <CardDescription>
+                    Detailed scores for each evaluation question
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={400}>
                     <BarChart data={questionBreakdown} layout="vertical">
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis type="number" domain={[0, 5]} />
-                      <YAxis 
-                        dataKey="question" 
-                        type="category" 
+                      <YAxis
+                        dataKey="question"
+                        type="category"
                         width={200}
                         tick={{ fontSize: 12 }}
                       />
                       <Tooltip />
-                      <Bar dataKey="score" fill="#fbbf24" radius={[0, 8, 8, 0]} />
+                      <Bar
+                        dataKey="score"
+                        fill="#fbbf24"
+                        radius={[0, 8, 8, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -342,7 +406,9 @@ export function AdminDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>Instructor Performance</CardTitle>
-                  <CardDescription>Individual instructor evaluation results</CardDescription>
+                  <CardDescription>
+                    Individual instructor evaluation results
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -365,7 +431,9 @@ export function AdminDashboard() {
                             <p className="text-2xl font-semibold text-primary">
                               {instructor.avgScore}
                             </p>
-                            <p className="text-xs text-muted-foreground">Average Score</p>
+                            <p className="text-xs text-muted-foreground">
+                              Average Score
+                            </p>
                           </div>
                           <div className="flex items-center gap-1">
                             {instructor.trend === "up" && (
@@ -387,7 +455,9 @@ export function AdminDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>Trend Analysis</CardTitle>
-                  <CardDescription>Performance trends over time</CardDescription>
+                  <CardDescription>
+                    Performance trends over time
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={400}>
@@ -419,15 +489,24 @@ export function AdminDashboard() {
                   <ul className="space-y-2 text-sm text-blue-800">
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
-                      <span>Overall scores have improved by 0.3 points since Fall 2025</span>
+                      <span>
+                        Overall scores have improved by 0.3 points since Fall
+                        2025
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
-                      <span>"Professionalism" consistently receives the highest ratings (4.7)</span>
+                      <span>
+                        "Professionalism" consistently receives the highest
+                        ratings (4.7)
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
-                      <span>"Timeliness of Feedback" shows room for improvement (3.8)</span>
+                      <span>
+                        "Timeliness of Feedback" shows room for improvement
+                        (3.8)
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
@@ -443,5 +522,3 @@ export function AdminDashboard() {
     </div>
   );
 }
-
-
