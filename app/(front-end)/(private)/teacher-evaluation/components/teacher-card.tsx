@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface TeacherCardProps {
   teacherName: string;
   subject: string;
@@ -8,11 +10,13 @@ export function TeacherCard({ teacherName, subject, avatarUrl }: TeacherCardProp
   return (
     <div className="bg-white rounded-2xl p-6 shadow-md border border-blue-100">
       <div className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg shrink-0">
-          <img 
-            src={avatarUrl} 
+        <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-blue-500 shadow-lg shrink-0">
+          <Image
+            src={avatarUrl}
             alt={teacherName}
-            className="w-full h-full object-cover"
+            fill
+            sizes="64px"
+            className="object-cover"
           />
         </div>
         <div className="flex-1">

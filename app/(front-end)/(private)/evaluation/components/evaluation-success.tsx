@@ -1,12 +1,24 @@
+"use client";
 
+import NextLink from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
-import { CheckCircle, ArrowRight, Download, GraduationCap, Link } from "lucide-react";
+import { CheckCircle, ArrowRight, Download, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
 
-
 export function EvaluationSuccess() {
+  const [submission] = useState(() => {
+    const submittedAt = new Date();
+    const confirmationId = Math.random().toString(36).slice(2, 11).toUpperCase();
+
+    return {
+      date: submittedAt.toLocaleDateString(),
+      time: submittedAt.toLocaleTimeString(),
+      confirmationId,
+    };
+  });
+
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-yellow-50">
       {/* Header */}
@@ -60,15 +72,15 @@ export function EvaluationSuccess() {
                 <div className="bg-white rounded-lg p-6 space-y-3 text-left max-w-md mx-auto">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Submission Date:</span>
-                    <span className="font-medium">{new Date().toLocaleDateString()}</span>
+                    <span className="font-medium">{submission.date}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Submission Time:</span>
-                    <span className="font-medium">{new Date().toLocaleTimeString()}</span>
+                    <span className="font-medium">{submission.time}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Confirmation ID:</span>
-                    <span className="font-medium font-mono">#EVAL-{Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
+                    <span className="font-medium font-mono">#EVAL-{submission.confirmationId}</span>
                   </div>
                 </div>
 
@@ -84,12 +96,12 @@ export function EvaluationSuccess() {
 
                 {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
-                  <Link to="/">
+                  <NextLink href="/">
                     <Button className="gap-2 bg-primary hover:bg-primary/90">
                       <ArrowRight className="h-4 w-4" />
                       Return to Dashboard
                     </Button>
-                  </Link>
+                  </NextLink>
                   <Button variant="outline" className="gap-2">
                     <Download className="h-4 w-4" />
                     Download Receipt
