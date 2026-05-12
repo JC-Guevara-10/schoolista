@@ -12,21 +12,22 @@ async function getUserFromToken(
   token?: string | null,
 ): Promise<SupabaseUser | null> {
   if (!token) return null;
-
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    console.error("Supabase env vars missing");
+  if (!SUPABASE_URL) {
+    console.error("Supabase URL env var missing");
     return null;
   }
-
   try {
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    // If a service role key is available (server env), include it as apikey.
+    if (SUPABASE_SERVICE_ROLE_KEY) headers.apikey = SUPABASE_SERVICE_ROLE_KEY;
+
     const resp = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        apikey: SUPABASE_SERVICE_ROLE_KEY,
-        "Content-Type": "application/json",
-      },
+      headers,
       // avoid caching
       cache: "no-store",
     });

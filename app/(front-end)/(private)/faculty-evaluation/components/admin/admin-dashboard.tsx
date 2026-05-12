@@ -1,15 +1,4 @@
-import React from "react";
-
-export default function AdminDashboard() {
-  return (
-    <div>
-      <h2 className="text-xl font-semibold">Faculty Evaluation — Admin View</h2>
-      <p className="mt-2">Admin controls for faculty evaluation.</p>
-    </div>
-  );
-}
-
-("use client");
+'use client'
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -121,7 +110,7 @@ const questionBreakdown = [
   { question: "Q10: Professional Boundaries", score: 4.6 },
 ];
 
-export function AdminDashboard() {
+export default function AdminDashboard() {
   const [selectedCourse, setSelectedCourse] = useState<string | null>("all");
   const [selectedInstructor, setSelectedInstructor] = useState<string | null>(
     "all",

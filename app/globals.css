@@ -49,7 +49,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: #f3f7fa;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -116,6 +116,29 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+
+.otas-shape {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  background: linear-gradient(135deg, #0b2e6d, #17489c);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  opacity: 0.96;
+}
+
+.otas-shape-top {
+  top: -40px;
+  left: -24px;
+}
+
+.otas-shape-bottom {
+  right: -36px;
+  bottom: -58px;
+  transform: rotate(180deg);
+  background: linear-gradient(135deg, #f7bf26, #f2ac0f);
+}
+
 
 @layer base {
   * {
