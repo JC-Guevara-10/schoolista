@@ -3,14 +3,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import NAV_ITEMS from "../config/navigation";
 import Link from "next/link";
+import type { Route } from "next";
+import { Role } from "@/lib/rbac";
 
 type User = {
   id?: string;
   email?: string | null;
-  role?: string | null;
+  role?: Role | null;
 };
+
+const iconMap = Icons as unknown as Record<string, LucideIcon>;
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -38,7 +43,7 @@ export function Sidebar() {
 
   const items = useMemo(() => {
     if (!role) return [];
-    return NAV_ITEMS.filter((i) => i.roles.includes(role as any));
+    return NAV_ITEMS.filter((i) => i.roles.includes(role));
   }, [role]);
 
   return (
@@ -56,13 +61,13 @@ export function Sidebar() {
 
       <nav className="px-2 py-4">
         {items.map((item) => {
-          const Icon = (Icons as any)[item.icon ?? "File"];
+          const Icon = iconMap[item.icon ?? "File"];
           const active =
             pathname === item.href || pathname?.startsWith(item.href + "/");
           return (
             <Link
               key={item.href}
-              href={item.href as any}
+              href={item.href as Route}
               className={`flex items-center gap-3 rounded px-3 py-2 my-1 text-sm ${active ? "bg-slate-100 font-medium" : "text-slate-700 hover:bg-slate-50"}`}
             >
               {Icon ? <Icon className="h-4 w-4" /> : null}

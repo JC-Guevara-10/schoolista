@@ -1,5 +1,4 @@
 "use server";
-import crypto from "crypto";
 import { createClient } from "@/lib/supabase/server";
 
 interface AuthForm {
@@ -14,7 +13,7 @@ interface AuthForm {
   studentNumber?: string;
 }
 
-export async function useAuthAction(
+export async function authAction(
   authForm: AuthForm,
 ): Promise<{ success: boolean; error?: string }> {
   try {
@@ -29,7 +28,7 @@ export async function useAuthAction(
         options: {
           data: {
             name,
-            role:"STUDENT"
+            role: "STUDENT",
           },
         },
       });
@@ -44,7 +43,7 @@ export async function useAuthAction(
       }
 
       // Check if user is null, return error if it is
-      const user = (data as any)?.user;
+      const user = data.user;
       if (!user) return { success: false, error: "No user returned." };
 
       // insert or upsert into `users`
@@ -85,7 +84,7 @@ export async function useAuthAction(
       }
       return { success: true };
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });

@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { Route } from "next";
 import { getUserFromToken, SupabaseUser } from "./supabase";
 import { createClient } from "./supabase/server";
 
@@ -24,16 +25,17 @@ export async function requireRoleOrRedirect(allowedRoles: string[]) {
   } = await supabase.auth.getUser();
   console.log(error);
   if (!user) {
-    redirect("/auth");
+    redirect("/auth" as Route);
   }
 
-  const role =
-    user?.user_metadata?.role || user?.app_metadata?.role || (user as any).role;
+  const role = user.user_metadata?.role || user.app_metadata?.role || user.role;
   if (!role || !allowedRoles.includes(role)) {
-    redirect("/auth");
+    redirect("/auth" as Route);
   }
 
   return user;
 }
 
-export default { getServerUserFromCookies, requireRoleOrRedirect };
+const serverAuth = { getServerUserFromCookies, requireRoleOrRedirect };
+
+export default serverAuth;

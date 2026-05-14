@@ -486,15 +486,15 @@ export default function AdminDashboard() {
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
                       <span>
-                        "Professionalism" consistently receives the highest
-                        ratings (4.7)
+                        &quot;Professionalism&quot; consistently receives the
+                        highest ratings (4.7)
                       </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-blue-600 mt-0.5">•</span>
                       <span>
-                        "Timeliness of Feedback" shows room for improvement
-                        (3.8)
+                        &quot;Timeliness of Feedback&quot; shows room for
+                        improvement (3.8)
                       </span>
                     </li>
                     <li className="flex items-start gap-2">

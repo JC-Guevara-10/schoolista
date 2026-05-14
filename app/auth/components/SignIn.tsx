@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useAuthAction } from "../authAction";
+import { authAction } from "../authAction";
 
 export default function SignIn({ onSwitch }: { onSwitch: () => void }) {
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ export default function SignIn({ onSwitch }: { onSwitch: () => void }) {
       return;
     }
 
-    const res = await useAuthAction({ mode: "signin", email, password });
+    const res = await authAction({ mode: "signin", email, password });
     if (!res.success) {
       setError(res.error || "Sign in failed");
       setSubmitting(false);
