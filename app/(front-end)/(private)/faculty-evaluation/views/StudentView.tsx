@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { GraduationCap, Send, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { TeacherCard } from "./components/teacher-card";
-import { RatingCategory } from "./components/rating-category";
-import { QuickFeedbackTags } from "./components/quick-feedback-tags";
-import { ProgressIndicator } from "./components/progress-indicator";
+import { QuickFeedbackTags } from "../components/student/quick-feedback-tags";
+import { RatingCategory } from "../components/student/rating-category";
+import { TeacherCard } from "../components/student/teacher-card";
+import { ProgressIndicator } from "../components/student/progress-indicator";
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(1);
