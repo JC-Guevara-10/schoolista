@@ -1,15 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Role } from "../../../../lib/rbac";
 import { getUserFromToken } from "../../../../lib/supabase";
 
 // Protect this API by validating Supabase access token (from Authorization header or cookie)
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization") || "";
   const bearer = authHeader.startsWith("Bearer ")
     ? authHeader.replace("Bearer ", "")
     : undefined;
-  const cookieHeader = (req as any).cookies?.get("sb-access-token")?.value;
+  const cookieHeader = req.cookies.get("sb-access-token")?.value;
   const token = bearer || cookieHeader;
 
   if (!token)
@@ -18,8 +18,7 @@ export async function GET(req: Request) {
   const user = await getUserFromToken(token);
   if (!user)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const role =
-    user.user_metadata?.role || user.app_metadata?.role || (user as any).role;
+  const role = user.user_metadata?.role || user.app_metadata?.role || user.role;
   if (role !== Role.ADMIN)
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 

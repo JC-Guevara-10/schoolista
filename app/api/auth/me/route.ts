@@ -22,13 +22,13 @@ export async function GET(req: Request) {
     const role =
       user.user_metadata?.role ||
       user.app_metadata?.role ||
-      (user as any).role ||
+      user.role ||
       null;
 
     return NextResponse.json({
       user: { id: user.id, email: user.email, role },
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ user: null }, { status: 200 });
   }
 }

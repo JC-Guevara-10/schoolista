@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { useAuthAction } from "../authAction";
+import { authAction } from "../authAction";
+
+type Gender = "male" | "female" | "other" | "";
 
 export default function SignUp({ onSwitch }: { onSwitch: () => void }) {
   const [name, setName] = useState("");
-  const [gender, setGender] = useState<"male" | "female" | "other" | "">("");
+  const [gender, setGender] = useState<Gender>("");
   const [birthDate, setBirthDate] = useState("");
   const [address, setAddress] = useState("");
   const [contactNumber, setContactNumber] = useState("");
@@ -35,7 +37,7 @@ export default function SignUp({ onSwitch }: { onSwitch: () => void }) {
       return;
     }
 
-    const res = await useAuthAction({
+    const res = await authAction({
       mode: "signup",
       name,
       email,
@@ -81,7 +83,7 @@ export default function SignUp({ onSwitch }: { onSwitch: () => void }) {
             <select
               className="w-full px-3 py-2 rounded-md border border-slate-200"
               value={gender}
-              onChange={(e) => setGender(e.target.value as any)}
+              onChange={(e) => setGender(e.target.value as Gender)}
             >
               <option value="">Select</option>
               <option value="male">Male</option>

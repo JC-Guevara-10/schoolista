@@ -27,9 +27,11 @@ export function hasRole(userRole: MaybeRole, allowed: (Role | string)[]) {
 // Caller can catch and redirect as needed (server component or API route).
 export function assertRole(userRole: MaybeRole, allowed: (Role | string)[]) {
   if (!canAccess(userRole, allowed)) {
-    const err = new Error("FORBIDDEN: insufficient role");
+    const err = new Error("FORBIDDEN: insufficient role") as Error & {
+      code: string;
+    };
     // attach a code to make distinguishing easier in handlers
-    (err as any).code = "FORBIDDEN_ROLE";
+    err.code = "FORBIDDEN_ROLE";
     throw err;
   }
 }
@@ -45,4 +47,6 @@ export function hasPermission(
   return required.every((p) => userPermissions.includes(p));
 }
 
-export default { Role, canAccess, hasRole, assertRole, hasPermission };
+const rbac = { Role, canAccess, hasRole, assertRole, hasPermission };
+
+export default rbac;

@@ -4,8 +4,7 @@ import { requireRoleOrRedirect } from "@/lib/serverAuth";
 
 export const page = async () => {
   const user = await requireRoleOrRedirect(["ADMIN", "STUDENT"]);
-  const role =
-    user?.user_metadata?.role || user?.app_metadata?.role || (user as any).role;
+  const role = user.user_metadata?.role || user.app_metadata?.role || user.role;
 
   console.log(user)
 

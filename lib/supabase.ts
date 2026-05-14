@@ -4,8 +4,9 @@
 export type SupabaseUser = {
   id: string;
   email?: string | null;
-  user_metadata?: Record<string, any>;
-  app_metadata?: Record<string, any>;
+  role?: string | null;
+  user_metadata?: Record<string, unknown>;
+  app_metadata?: Record<string, unknown>;
 };
 
 async function getUserFromToken(
@@ -45,4 +46,6 @@ async function getUserFromToken(
 
 export { getUserFromToken };
 
-export default { getUserFromToken };
+const supabaseHelpers = { getUserFromToken };
+
+export default supabaseHelpers;
