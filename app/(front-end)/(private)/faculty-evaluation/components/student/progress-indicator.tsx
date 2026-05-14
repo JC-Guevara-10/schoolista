@@ -4,7 +4,7 @@ interface ProgressIndicatorProps {
 }
 
 export function ProgressIndicator({ currentStep, totalSteps }: ProgressIndicatorProps) {
-  const steps = ["Rate", "Comment", "Review"];
+  const steps = ["Rate", "Comment", "Review"].slice(0, totalSteps);
   
   return (
     <div className="mb-8">

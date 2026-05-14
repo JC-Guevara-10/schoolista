@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
   Bar,
   BarChart,
@@ -16,7 +17,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { RoleSwitcher } from "./components/RoleSwitcher";
+import { RoleSwitcher } from "../components/RoleSwitcher";
 
 type Student = {
   id: number;
@@ -26,6 +27,7 @@ type Student = {
   gpa: number;
   term: string;
   awardDate: string;
+  email: string;
 };
 
 const trendData = [
@@ -43,7 +45,7 @@ const programData = [
   { program: "BS BA", count: 32 },
   { program: "BS Psych", count: 28 },
   { program: "BS Eng", count: 24 },
-  { program: "Others", count: 52 },
+  { program: "Others", count: 58 },
 ];
 
 const yearData = [
@@ -62,6 +64,7 @@ const students: Student[] = [
     gpa: 4.0,
     term: "2025-1",
     awardDate: "2/15/2026",
+    email: "maria.santos@university.edu",
   },
   {
     id: 2,
@@ -71,6 +74,7 @@ const students: Student[] = [
     gpa: 3.95,
     term: "2025-1",
     awardDate: "2/15/2026",
+    email: "juan.delacruz@university.edu",
   },
   {
     id: 3,
@@ -80,6 +84,7 @@ const students: Student[] = [
     gpa: 3.92,
     term: "2025-1",
     awardDate: "2/15/2026",
+    email: "anna.reyes@university.edu",
   },
   {
     id: 4,
@@ -89,6 +94,7 @@ const students: Student[] = [
     gpa: 3.88,
     term: "2025-1",
     awardDate: "2/15/2026",
+    email: "carlos.garcia@university.edu",
   },
   {
     id: 5,
@@ -98,19 +104,48 @@ const students: Student[] = [
     gpa: 3.85,
     term: "2025-1",
     awardDate: "2/15/2026",
+    email: "sofia.martinez@university.edu",
   },
+  {
+    id: 6,
+    name: "Miguel Ramos",
+    program: "BS Computer Science",
+    yearLevel: "2nd Year",
+    gpa: 3.82,
+    term: "2024-2",
+    awardDate: "11/20/2025",
+    email: "miguel.ramos@university.edu",
+  },
+  {
+    id: 7,
+    name: "Elena Cruz",
+    program: "BS Engineering",
+    yearLevel: "4th Year",
+    gpa: 3.79,
+    term: "2024-2",
+    awardDate: "11/20/2025",
+    email: "elena.cruz@university.edu",
+  },
+  {
+    id: 8,
+    name: "Rafael Torres",
+    program: "BS Information Technology",
+    yearLevel: "1st Year",
+    gpa: 3.75,
+    term: "2024-2",
+    awardDate: "11/20/2025",
+    email: "rafael.torres@university.edu",
+  },
+];
+
+const gpaTrend = [
+  { term: "2024-2025 1st", gpa: 3.82 },
+  { term: "2024-2025 2nd", gpa: 3.85 },
+  { term: "2025-2026 1st", gpa: 3.89 },
 ];
 
 const cardClass =
   "rounded-lg border border-slate-200 bg-white shadow-[0_2px_8px_rgba(15,23,42,0.12)]";
-
-function IconCircle({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-400 text-white">
-      {children}
-    </div>
-  );
-}
 
 function MedalIcon() {
   return (
@@ -127,16 +162,29 @@ function MedalIcon() {
   );
 }
 
-function UsersIcon() {
+function TrophyIcon() {
   return (
     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="17" cy="9" r="2.4" stroke="currentColor" strokeWidth="1.8" />
       <path
-        d="M3.5 19c.7-3.2 2.7-5 5.5-5s4.8 1.8 5.5 5M14.5 15.2c2.7.1 4.6 1.4 5.4 3.8"
+        d="M8 4h8v4a4 4 0 0 1-8 0V4ZM8 7H5a3 3 0 0 0 3 3M16 7h3a3 3 0 0 1-3 3M12 12v4M9 20h6M10 16h4"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function TrendIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="m4 15 5-5 4 4 7-8M16 6h4v4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -161,6 +209,52 @@ function GraduationIcon() {
   );
 }
 
+function EyeIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M3 12s3.2-5 9-5 9 5 9 5-3.2 5-9 5-9-5-9-5Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+      <circle cx="12" cy="12" r="2.2" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7h16v10H4V7Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="m5 8 7 5 7-5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M8 7V5h8v2M4 8h16v11H4V8Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path d="M4 12h16" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
 function KpiCard({
   title,
   value,
@@ -170,7 +264,7 @@ function KpiCard({
   title: string;
   value: string;
   detail?: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }) {
   return (
     <section className={`${cardClass} flex min-h-28 items-center justify-between p-6`}>
@@ -183,7 +277,9 @@ function KpiCard({
           <p className="mt-3 text-xs font-medium text-emerald-600">{detail}</p>
         )}
       </div>
-      <IconCircle>{icon}</IconCircle>
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-400 text-white">
+        {icon}
+      </div>
     </section>
   );
 }
@@ -194,7 +290,7 @@ function Panel({
   className = "",
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
@@ -240,17 +336,16 @@ function PieLabel({
     return null;
   }
 
-  const radius = outerRadius + 28;
+  const radius = outerRadius + 30;
   const radians = (-midAngle * Math.PI) / 180;
   const x = cx + radius * Math.cos(radians);
   const y = cy + radius * Math.sin(radians);
-  const anchor = x > cx ? "start" : "end";
 
   return (
     <text
       x={x}
       y={y}
-      textAnchor={anchor}
+      textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
       className="fill-slate-600 text-[10px]"
     >
@@ -259,70 +354,42 @@ function PieLabel({
   );
 }
 
-function ActionIcon({
-  type,
-  onClick,
+function InfoTile({
+  icon,
+  label,
+  value,
+  tone,
 }: {
-  type: "view" | "edit" | "delete";
-  onClick: () => void;
+  icon: ReactNode;
+  label: string;
+  value: string;
+  tone: string;
 }) {
-  const colors = {
-    view: "text-cyan-700",
-    edit: "text-blue-600",
-    delete: "text-rose-500",
-  };
-
   return (
-    <button
-      onClick={onClick}
-      className={`inline-flex h-7 w-7 items-center justify-center rounded-md ${colors[type]} hover:bg-slate-100`}
-      aria-label={type}
-    >
-      {type === "view" && (
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M3 12s3.2-5 9-5 9 5 9 5-3.2 5-9 5-9-5-9-5Z"
-            stroke="currentColor"
-            strokeWidth="1.8"
-          />
-          <circle cx="12" cy="12" r="2.2" stroke="currentColor" strokeWidth="1.8" />
-        </svg>
-      )}
-      {type === "edit" && (
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M5 19h4L19 9l-4-4L5 15v4Z"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
-      {type === "delete" && (
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M6 7h12M10 7V5h4v2m-6 3v9m4-9v9m4-9v9M8 7l1 14h6l1-14"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )}
-    </button>
+    <div className="flex min-w-0 items-center gap-3 rounded-md border border-slate-200 p-4">
+      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${tone}`}>
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <p className="text-[10px] font-semibold text-slate-500">{label}</p>
+        <p className="truncate text-sm font-bold text-slate-950">{value}</p>
+      </div>
+    </div>
   );
 }
 
-function StudentDetailsModal({
+function StudentModal({
   student,
+  chartsReady,
   onClose,
 }: {
   student: Student;
+  chartsReady: boolean;
   onClose: () => void;
 }) {
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-4 pt-24">
-      <section className="w-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-2xl">
+      <section className="w-full max-w-3xl overflow-hidden rounded-lg bg-white shadow-2xl">
         <header className="flex items-start justify-between bg-[#0f5b78] px-6 py-5 text-white">
           <div>
             <h2 className="text-lg font-bold leading-tight">{student.name}</h2>
@@ -337,144 +404,75 @@ function StudentDetailsModal({
           </button>
         </header>
 
-        <div className="grid gap-4 p-6 sm:grid-cols-2">
-          {[
-            ["Year Level", student.yearLevel],
-            ["GPA", student.gpa.toFixed(2)],
-            ["Term", student.term],
-            ["Award Date", student.awardDate],
-          ].map(([label, value]) => (
-            <div key={label} className="rounded-md border border-slate-200 p-4">
-              <p className="text-xs font-semibold text-slate-500">{label}</p>
-              <p className="mt-2 text-base font-bold text-slate-950">{value}</p>
+        <div className="grid gap-4 p-5">
+          <div className="grid gap-3 md:grid-cols-4">
+            <InfoTile
+              icon={<MedalIcon />}
+              label="GPA"
+              value={student.gpa.toFixed(2)}
+              tone="bg-amber-400 text-white"
+            />
+            <InfoTile
+              icon={<GraduationIcon />}
+              label="Year Level"
+              value={student.yearLevel.replace(" Year", "")}
+              tone="bg-blue-500 text-white"
+            />
+            <InfoTile
+              icon={<BriefcaseIcon />}
+              label="Term"
+              value={student.term}
+              tone="bg-violet-500 text-white"
+            />
+            <InfoTile
+              icon={<MailIcon />}
+              label="Email"
+              value={student.email}
+              tone="bg-emerald-500 text-white"
+            />
+          </div>
+
+          <section className="rounded-md border border-slate-200 p-5">
+            <h3 className="text-sm font-bold text-slate-950">GPA Trend</h3>
+            <div className="mt-4 h-52">
+              {chartsReady && (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={gpaTrend} margin={{ left: 0, right: 16, top: 8 }}>
+                    <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
+                    <XAxis dataKey="term" tick={{ fontSize: 10 }} tickLine={false} />
+                    <YAxis
+                      domain={[3.7, 4]}
+                      ticks={[3.7, 3.8, 3.9, 4]}
+                      tick={{ fontSize: 10 }}
+                      tickLine={false}
+                    />
+                    <Tooltip />
+                    <Line
+                      type="monotone"
+                      dataKey="gpa"
+                      stroke="#0f5b78"
+                      strokeWidth={2.5}
+                      dot={{ r: 4, fill: "#0f5b78" }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </div>
-          ))}
+          </section>
         </div>
       </section>
     </div>
   );
 }
 
-function RecordFormModal({
-  mode,
-  student,
-  onClose,
-  onSave,
+export function AnalyticsAccessDashboard({
+  accessLabel = "Registrar",
 }: {
-  mode: "add" | "edit";
-  student?: Student;
-  onClose: () => void;
-  onSave: (student: Student) => void;
+  accessLabel?: string;
 }) {
-  const [draft, setDraft] = useState<Student>(
-    student ?? {
-      id: 0,
-      name: "",
-      program: "",
-      yearLevel: "",
-      gpa: 3.5,
-      term: "2025-1",
-      awardDate: "2/15/2026",
-    }
-  );
-
-  const updateDraft = (field: keyof Student, value: string) => {
-    setDraft((current) => ({
-      ...current,
-      [field]: field === "gpa" ? Number(value) : value,
-    }));
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/55 px-4 pt-24">
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          onSave(draft);
-        }}
-        className="w-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-2xl"
-      >
-        <header className="flex items-start justify-between bg-[#0f5b78] px-6 py-5 text-white">
-          <div>
-            <h2 className="text-lg font-bold leading-tight">
-              {mode === "add" ? "Add Student Record" : "Edit Student Record"}
-            </h2>
-            <p className="mt-1 text-xs text-cyan-50">
-              Dean&apos;s Lister academic record
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-md p-1 text-white transition hover:bg-white/15"
-            aria-label="Close record form"
-          >
-            x
-          </button>
-        </header>
-
-        <div className="grid gap-4 p-6 md:grid-cols-2">
-          {[
-            ["name", "Student Name"],
-            ["program", "Program"],
-            ["yearLevel", "Year Level"],
-            ["term", "Term"],
-            ["awardDate", "Award Date"],
-          ].map(([field, label]) => (
-            <label key={field} className="block">
-              <span className="text-xs font-semibold text-slate-600">{label}</span>
-              <input
-                required
-                value={String(draft[field as keyof Student])}
-                onChange={(event) =>
-                  updateDraft(field as keyof Student, event.target.value)
-                }
-                className="mt-2 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none transition focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
-              />
-            </label>
-          ))}
-
-          <label className="block">
-            <span className="text-xs font-semibold text-slate-600">GPA</span>
-            <input
-              required
-              type="number"
-              min="0"
-              max="4"
-              step="0.01"
-              value={draft.gpa}
-              onChange={(event) => updateDraft("gpa", event.target.value)}
-              className="mt-2 h-10 w-full rounded-md border border-slate-200 px-3 text-sm outline-none transition focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100"
-            />
-          </label>
-        </div>
-
-        <footer className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4">
-          <button
-            type="button"
-            onClick={onClose}
-            className="h-9 rounded-md border border-slate-200 px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="h-9 rounded-md bg-amber-400 px-4 text-xs font-bold text-white transition hover:bg-amber-500"
-          >
-            Save Record
-          </button>
-        </footer>
-      </form>
-    </div>
-  );
-}
-
-export default function DeansListerPage() {
   const [search, setSearch] = useState("");
-  const [studentRecords, setStudentRecords] = useState<Student[]>(students);
+  const [page, setPage] = useState(1);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [editingStudent, setEditingStudent] = useState<Student | null>(null);
-  const [isAddingRecord, setIsAddingRecord] = useState(false);
   const [chartsReady, setChartsReady] = useState(false);
 
   useEffect(() => {
@@ -485,39 +483,23 @@ export default function DeansListerPage() {
 
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase();
-    if (!query) return studentRecords;
+    if (!query) return students;
 
-    return studentRecords.filter(
+    return students.filter(
       (student) =>
         student.name.toLowerCase().includes(query) ||
         student.program.toLowerCase().includes(query)
     );
-  }, [search, studentRecords]);
+  }, [search]);
 
-  const saveRecord = (student: Student) => {
-    if (student.id === 0) {
-      setStudentRecords((current) => [
-        ...current,
-        {
-          ...student,
-          id: Math.max(0, ...current.map((record) => record.id)) + 1,
-        },
-      ]);
-    } else {
-      setStudentRecords((current) =>
-        current.map((record) => (record.id === student.id ? student : record))
-      );
-    }
-
-    setIsAddingRecord(false);
-    setEditingStudent(null);
-  };
-
-  const deleteRecord = (studentId: number) => {
-    setStudentRecords((current) =>
-      current.filter((student) => student.id !== studentId)
-    );
-  };
+  const pageSize = 5;
+  const totalPages = Math.max(1, Math.ceil(filteredStudents.length / pageSize));
+  const visibleStudents = filteredStudents.slice(
+    (page - 1) * pageSize,
+    page * pageSize
+  );
+  const firstShown = filteredStudents.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const lastShown = Math.min(page * pageSize, filteredStudents.length);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
@@ -525,7 +507,7 @@ export default function DeansListerPage() {
         <div className="mx-auto flex max-w-[1440px] flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-lg font-bold leading-tight">
-              Admin Analytics Dashboard
+              Dean&apos;s Lister Analytics Dashboard
             </h1>
             <p className="mt-1 text-xs text-cyan-50">
               Learning Management System - Academic Excellence Tracking
@@ -547,9 +529,9 @@ export default function DeansListerPage() {
             title="Average GPA"
             value="3.87"
             detail="+0.05 from last term"
-            icon={<UsersIcon />}
+            icon={<TrophyIcon />}
           />
-          <KpiCard title="Highest GPA" value="4.00" icon={<MedalIcon />} />
+          <KpiCard title="Highest GPA" value="4.00" icon={<TrendIcon />} />
           <KpiCard
             title="Programs Represented"
             value="15"
@@ -568,43 +550,9 @@ export default function DeansListerPage() {
               <Field label="Year Level" />
             </div>
 
-            <div className="mt-7">
-              <div className="mb-4 flex items-center gap-2 text-xs font-bold text-slate-700">
-                <svg className="h-4 w-4 text-cyan-700" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M12 4v16M4 12h16M7 7l10 10M17 7 7 17"
-                    stroke="currentColor"
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                GPA Standard
-              </div>
-              <div className="flex items-center justify-between text-xs text-slate-600">
-                <span>Minimum GPA</span>
-                <span className="font-bold text-cyan-700">3.50</span>
-              </div>
-              <input
-                type="range"
-                min="3"
-                max="4"
-                step="0.1"
-                defaultValue="3.5"
-                className="mt-3 w-full accent-cyan-700"
-              />
-              <div className="mt-1 flex justify-between text-[10px] text-slate-400">
-                <span>3.0</span>
-                <span>3.5</span>
-                <span>4.0</span>
-              </div>
-              <p className="mt-4 rounded-md bg-cyan-50 p-3 text-[11px] leading-relaxed text-slate-600">
-                Note: Students with GPA of 3.50 or higher qualify for Dean&apos;s
-                Lister recognition.
-              </p>
-              <button className="mt-4 h-9 w-full rounded-md bg-cyan-50 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-100">
-                Clear Filters
-              </button>
-            </div>
+            <button className="mt-6 h-9 w-full rounded-md bg-cyan-50 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-100">
+              Clear Filters
+            </button>
           </aside>
 
           <div className="grid gap-5">
@@ -715,19 +663,9 @@ export default function DeansListerPage() {
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${item.color}`}>
-                  {item.icon === "up" && (
-                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="m5 15 4-4 3 3 6-7M15 7h3v3"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
+                  {item.icon === "up" && <TrendIcon />}
                   {item.icon === "medal" && <MedalIcon />}
-                  {item.icon === "group" && <UsersIcon />}
+                  {item.icon === "group" && <GraduationIcon />}
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900">{item.title}</h3>
@@ -740,9 +678,14 @@ export default function DeansListerPage() {
 
         <section className={cardClass}>
           <div className="flex flex-col gap-4 px-5 py-5 md:flex-row md:items-center md:justify-between">
-            <h2 className="text-sm font-bold text-slate-950">
-              Top Performing Students
-            </h2>
+            <div>
+              <h2 className="text-sm font-bold text-slate-950">
+                Top Performing Students
+              </h2>
+              <p className="mt-1 text-xs text-slate-500">
+                Read-only view ({accessLabel} access)
+              </p>
+            </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <label className="relative">
                 <svg
@@ -755,19 +698,16 @@ export default function DeansListerPage() {
                 </svg>
                 <input
                   value={search}
-                  onChange={(event) => setSearch(event.target.value)}
+                  onChange={(event) => {
+                    setSearch(event.target.value);
+                    setPage(1);
+                  }}
                   placeholder="Search students or programs..."
                   className="h-9 w-full rounded-md border border-slate-200 pl-9 pr-3 text-xs outline-none transition focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100 sm:w-80"
                 />
               </label>
               <button className="h-9 rounded-md border border-slate-200 px-4 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
                 Export CSV
-              </button>
-              <button
-                onClick={() => setIsAddingRecord(true)}
-                className="h-9 rounded-md bg-amber-400 px-4 text-xs font-bold text-white transition hover:bg-amber-500"
-              >
-                + Add Record
               </button>
             </div>
           </div>
@@ -786,7 +726,7 @@ export default function DeansListerPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredStudents.map((student) => (
+                {visibleStudents.map((student) => (
                   <tr key={student.id} className="hover:bg-slate-50">
                     <td className="px-5 py-4 font-semibold text-slate-900">
                       {student.name}
@@ -801,18 +741,13 @@ export default function DeansListerPage() {
                     <td className="px-5 py-4 text-slate-600">{student.term}</td>
                     <td className="px-5 py-4 text-slate-600">{student.awardDate}</td>
                     <td className="px-5 py-4 text-right">
-                      <ActionIcon
-                        type="view"
+                      <button
                         onClick={() => setSelectedStudent(student)}
-                      />
-                      <ActionIcon
-                        type="edit"
-                        onClick={() => setEditingStudent(student)}
-                      />
-                      <ActionIcon
-                        type="delete"
-                        onClick={() => deleteRecord(student.id)}
-                      />
+                        className="inline-flex h-7 w-7 items-center justify-center rounded-md text-cyan-700 transition hover:bg-slate-100"
+                        aria-label={`View ${student.name}`}
+                      >
+                        <EyeIcon />
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -822,19 +757,38 @@ export default function DeansListerPage() {
 
           <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-4 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
             <span>
-              Showing 1 to {filteredStudents.length} of {filteredStudents.length} records
+              Showing {firstShown} to {lastShown} of {filteredStudents.length} records
             </span>
             <div className="flex items-center gap-2">
-              <button className="h-8 w-8 rounded-md border border-slate-200 text-slate-400">
+              <button
+                onClick={() => setPage((current) => Math.max(1, current - 1))}
+                disabled={page === 1}
+                className="h-8 w-8 rounded-md border border-slate-200 text-slate-400 disabled:opacity-50"
+              >
                 &lt;
               </button>
-              <button className="h-8 w-8 rounded-md bg-[#0f5b78] font-semibold text-white">
-                1
-              </button>
-              <button className="h-8 w-8 rounded-md border border-slate-200 text-slate-600">
-                2
-              </button>
-              <button className="h-8 w-8 rounded-md border border-slate-200 text-slate-600">
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    onClick={() => setPage(pageNumber)}
+                    className={`h-8 w-8 rounded-md border text-xs font-semibold ${
+                      page === pageNumber
+                        ? "border-[#0f5b78] bg-[#0f5b78] text-white"
+                        : "border-slate-200 text-slate-600"
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                )
+              )}
+              <button
+                onClick={() =>
+                  setPage((current) => Math.min(totalPages, current + 1))
+                }
+                disabled={page === totalPages}
+                className="h-8 w-8 rounded-md border border-slate-200 text-slate-600 disabled:opacity-50"
+              >
                 &gt;
               </button>
             </div>
@@ -843,28 +797,16 @@ export default function DeansListerPage() {
       </div>
 
       {selectedStudent && (
-        <StudentDetailsModal
+        <StudentModal
           student={selectedStudent}
+          chartsReady={chartsReady}
           onClose={() => setSelectedStudent(null)}
-        />
-      )}
-
-      {isAddingRecord && (
-        <RecordFormModal
-          mode="add"
-          onClose={() => setIsAddingRecord(false)}
-          onSave={saveRecord}
-        />
-      )}
-
-      {editingStudent && (
-        <RecordFormModal
-          mode="edit"
-          student={editingStudent}
-          onClose={() => setEditingStudent(null)}
-          onSave={saveRecord}
         />
       )}
     </main>
   );
+}
+
+export default function RegistrarDashboardPage() {
+  return <AnalyticsAccessDashboard accessLabel="Registrar" />;
 }

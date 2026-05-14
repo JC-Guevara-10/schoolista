@@ -1,5 +1,5 @@
 "use client"
-import { use, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
