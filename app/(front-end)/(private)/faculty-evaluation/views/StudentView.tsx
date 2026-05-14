@@ -1,11 +1,13 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { GraduationCap, Send, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { QuickFeedbackTags } from "../components/student/quick-feedback-tags";
-import { RatingCategory } from "../components/student/rating-category";
-import { TeacherCard } from "../components/student/teacher-card";
-import { ProgressIndicator } from "../components/student/progress-indicator";
+import {
+  QuickFeedbackTags,
+  RatingCategory,
+  TeacherCard,
+  ProgressIndicator,
+} from "../components/student";
 
 export default function App() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -13,32 +15,32 @@ export default function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const ratingCategories = [
-    { 
-      name: "Teaching Effectiveness", 
-      description: "Clarity of instruction and ability to explain concepts"
+    {
+      name: "Teaching Effectiveness",
+      description: "Clarity of instruction and ability to explain concepts",
     },
-    { 
-      name: "Communication Skills", 
-      description: "Clarity and responsiveness in communication"
+    {
+      name: "Communication Skills",
+      description: "Clarity and responsiveness in communication",
     },
-    { 
-      name: "Punctuality", 
-      description: "Arrives on time and respects scheduled hours"
+    {
+      name: "Punctuality",
+      description: "Arrives on time and respects scheduled hours",
     },
-    { 
-      name: "Engagement", 
-      description: "Makes classes interesting and interactive"
+    {
+      name: "Engagement",
+      description: "Makes classes interesting and interactive",
     },
-    { 
-      name: "Fairness in Grading", 
-      description: "Grades assignments and exams fairly"
-    }
+    {
+      name: "Fairness in Grading",
+      description: "Grades assignments and exams fairly",
+    },
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
-    
+
     // Reset after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
@@ -64,7 +66,8 @@ export default function App() {
           </motion.div>
           <h2 className="text-3xl text-gray-800 mb-3">Thank You!</h2>
           <p className="text-gray-600">
-            Your evaluation has been submitted successfully. Your feedback helps us improve the quality of education.
+            Your evaluation has been submitted successfully. Your feedback helps
+            us improve the quality of education.
           </p>
         </motion.div>
       </div>
@@ -84,7 +87,9 @@ export default function App() {
             <GraduationCap className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl text-gray-800 mb-2">Teacher Evaluation</h1>
-          <p className="text-gray-600">Help us improve by sharing your honest feedback</p>
+          <p className="text-gray-600">
+            Help us improve by sharing your honest feedback
+          </p>
         </motion.div>
 
         {/* Progress Indicator */}
@@ -198,12 +203,11 @@ export default function App() {
             transition={{ delay: 0.8 }}
             className="text-center text-sm text-gray-500 bg-blue-50 rounded-xl p-4 border border-blue-100"
           >
-            🔒 Your feedback is anonymous and will be used to improve teaching quality
+            🔒 Your feedback is anonymous and will be used to improve teaching
+            quality
           </motion.div>
         </form>
       </div>
     </div>
   );
 }
-
-

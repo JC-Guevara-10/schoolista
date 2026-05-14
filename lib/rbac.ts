@@ -5,6 +5,7 @@ export enum Role {
   ADMIN = "ADMIN",
   TEACHER = "TEACHER",
   STUDENT = "STUDENT",
+  REGISTRAR = "REGISTRAR",
 }
 
 export type MaybeRole = Role | string | undefined | null;

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Role, canAccess } from "../lib/rbac";
+import { Role, canAccess } from "../../lib/rbac";
+import NotAllowed from "./NotAllowed";
 
 type Props = {
   allowed: (Role | string)[];
@@ -9,7 +10,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export function RoleGuard({ allowed, fallback = null, children }: Props) {
+export function RoleGuard({ allowed, fallback, children }: Props) {
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +31,7 @@ export function RoleGuard({ allowed, fallback = null, children }: Props) {
 
   if (loading) return null;
 
-  if (!canAccess(role, allowed)) return <>{fallback}</>;
+  if (!canAccess(role, allowed)) return <>{fallback !== undefined ? fallback : <NotAllowed />}</>;
 
   return <>{children}</>;
 }

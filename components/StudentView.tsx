@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import RoleGuard from "./RoleGuard";
 import { Role } from "../lib/rbac";
+import RoleGuard from "./shared/RoleGuard";
 
 type Props = { children: React.ReactNode; fallback?: React.ReactNode };
 
-export function StudentView({ children, fallback = null }: Props) {
+export function StudentView({ children, fallback }: Props) {
   return (
     <RoleGuard allowed={[Role.STUDENT]} fallback={fallback}>
       {children}

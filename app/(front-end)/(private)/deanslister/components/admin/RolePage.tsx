@@ -1,4 +1,3 @@
-import { RoleSwitcher } from "./RoleSwitcher";
 
 type Metric = {
   label: string;
@@ -35,10 +34,11 @@ export function RolePage({
       <header className="bg-[#0f5b78] px-6 py-5 text-white shadow-sm">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h1 className="text-lg font-bold leading-tight">{role} Dashboard</h1>
+            <h1 className="text-lg font-bold leading-tight">
+              {role} Dashboard
+            </h1>
             <p className="mt-1 text-xs text-cyan-50">{subtitle}</p>
           </div>
-          <RoleSwitcher />
         </div>
       </header>
 

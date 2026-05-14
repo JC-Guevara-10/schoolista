@@ -17,7 +17,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { RoleSwitcher } from "../components/RoleSwitcher";
 
 type Student = {
   id: number;
@@ -267,7 +266,9 @@ function KpiCard({
   icon: ReactNode;
 }) {
   return (
-    <section className={`${cardClass} flex min-h-28 items-center justify-between p-6`}>
+    <section
+      className={`${cardClass} flex min-h-28 items-center justify-between p-6`}
+    >
       <div>
         <p className="text-xs font-medium text-slate-500">{title}</p>
         <p className="mt-2 text-3xl font-bold leading-none text-slate-950">
@@ -312,35 +313,18 @@ function Field({ label }: { label: string }) {
   );
 }
 
-function PieLabel({
-  cx,
-  cy,
-  midAngle,
-  outerRadius,
-  name,
-  value,
-}: {
-  cx?: number;
-  cy?: number;
-  midAngle?: number;
-  outerRadius?: number;
-  name?: string;
-  value?: number;
-}) {
+function PieLabel({ cx, cy, midAngle, outerRadius, name, value }: any) {
   if (
     cx === undefined ||
     cy === undefined ||
     midAngle === undefined ||
     outerRadius === undefined
-  ) {
+  )
     return null;
-  }
-
   const radius = outerRadius + 30;
   const radians = (-midAngle * Math.PI) / 180;
   const x = cx + radius * Math.cos(radians);
   const y = cy + radius * Math.sin(radians);
-
   return (
     <text
       x={x}
@@ -354,20 +338,12 @@ function PieLabel({
   );
 }
 
-function InfoTile({
-  icon,
-  label,
-  value,
-  tone,
-}: {
-  icon: ReactNode;
-  label: string;
-  value: string;
-  tone: string;
-}) {
+function InfoTile({ icon, label, value, tone }: any) {
   return (
     <div className="flex min-w-0 items-center gap-3 rounded-md border border-slate-200 p-4">
-      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${tone}`}>
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${tone}`}
+      >
         {icon}
       </div>
       <div className="min-w-0">
@@ -398,12 +374,10 @@ function StudentModal({
           <button
             onClick={onClose}
             className="rounded-md p-1 text-white transition hover:bg-white/15"
-            aria-label="Close student details"
           >
             x
           </button>
         </header>
-
         <div className="grid gap-4 p-5">
           <div className="grid gap-3 md:grid-cols-4">
             <InfoTile
@@ -431,15 +405,21 @@ function StudentModal({
               tone="bg-emerald-500 text-white"
             />
           </div>
-
           <section className="rounded-md border border-slate-200 p-5">
             <h3 className="text-sm font-bold text-slate-950">GPA Trend</h3>
             <div className="mt-4 h-52">
               {chartsReady && (
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={gpaTrend} margin={{ left: 0, right: 16, top: 8 }}>
+                  <LineChart
+                    data={gpaTrend}
+                    margin={{ left: 0, right: 16, top: 8 }}
+                  >
                     <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                    <XAxis dataKey="term" tick={{ fontSize: 10 }} tickLine={false} />
+                    <XAxis
+                      dataKey="term"
+                      tick={{ fontSize: 10 }}
+                      tickLine={false}
+                    />
                     <YAxis
                       domain={[3.7, 4]}
                       ticks={[3.7, 3.8, 3.9, 4]}
@@ -465,7 +445,7 @@ function StudentModal({
   );
 }
 
-export function AnalyticsAccessDashboard({
+export default function RegistrarView({
   accessLabel = "Registrar",
 }: {
   accessLabel?: string;
@@ -477,18 +457,16 @@ export function AnalyticsAccessDashboard({
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setChartsReady(true));
-
     return () => cancelAnimationFrame(frame);
   }, []);
 
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase();
     if (!query) return students;
-
     return students.filter(
       (student) =>
         student.name.toLowerCase().includes(query) ||
-        student.program.toLowerCase().includes(query)
+        student.program.toLowerCase().includes(query),
     );
   }, [search]);
 
@@ -496,9 +474,10 @@ export function AnalyticsAccessDashboard({
   const totalPages = Math.max(1, Math.ceil(filteredStudents.length / pageSize));
   const visibleStudents = filteredStudents.slice(
     (page - 1) * pageSize,
-    page * pageSize
+    page * pageSize,
   );
-  const firstShown = filteredStudents.length === 0 ? 0 : (page - 1) * pageSize + 1;
+  const firstShown =
+    filteredStudents.length === 0 ? 0 : (page - 1) * pageSize + 1;
   const lastShown = Math.min(page * pageSize, filteredStudents.length);
 
   return (
@@ -513,7 +492,6 @@ export function AnalyticsAccessDashboard({
               Learning Management System - Academic Excellence Tracking
             </p>
           </div>
-          <RoleSwitcher />
         </div>
       </header>
 
@@ -542,14 +520,12 @@ export function AnalyticsAccessDashboard({
         <section className="grid gap-5 xl:grid-cols-[340px_minmax(0,1fr)]">
           <aside className={`${cardClass} p-5`}>
             <h2 className="text-sm font-bold text-slate-950">Filters</h2>
-
             <div className="mt-5 space-y-4">
               <Field label="Academic Year" />
               <Field label="Semester/Term" />
               <Field label="Program" />
               <Field label="Year Level" />
             </div>
-
             <button className="mt-6 h-9 w-full rounded-md bg-cyan-50 text-xs font-semibold text-cyan-700 transition hover:bg-cyan-100">
               Clear Filters
             </button>
@@ -560,9 +536,16 @@ export function AnalyticsAccessDashboard({
               <div className="h-72">
                 {chartsReady && (
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={trendData} margin={{ left: 0, right: 16, top: 10 }}>
+                    <LineChart
+                      data={trendData}
+                      margin={{ left: 0, right: 16, top: 10 }}
+                    >
                       <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                      <XAxis dataKey="term" tick={{ fontSize: 11 }} tickLine={false} />
+                      <XAxis
+                        dataKey="term"
+                        tick={{ fontSize: 11 }}
+                        tickLine={false}
+                      />
                       <YAxis
                         domain={[0, 260]}
                         ticks={[0, 65, 130, 195, 260]}
@@ -577,7 +560,12 @@ export function AnalyticsAccessDashboard({
                         name="Dean's Listers"
                         stroke="#0f5b78"
                         strokeWidth={2.5}
-                        dot={{ r: 5, fill: "#facc15", stroke: "#0f5b78", strokeWidth: 2 }}
+                        dot={{
+                          r: 5,
+                          fill: "#facc15",
+                          stroke: "#0f5b78",
+                          strokeWidth: 2,
+                        }}
                         activeDot={{ r: 6 }}
                       />
                     </LineChart>
@@ -591,9 +579,16 @@ export function AnalyticsAccessDashboard({
                 <div className="h-72">
                   {chartsReady && (
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={programData} margin={{ top: 12, right: 8, bottom: 6 }}>
+                      <BarChart
+                        data={programData}
+                        margin={{ top: 12, right: 8, bottom: 6 }}
+                      >
                         <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                        <XAxis dataKey="program" tick={{ fontSize: 10 }} tickLine={false} />
+                        <XAxis
+                          dataKey="program"
+                          tick={{ fontSize: 10 }}
+                          tickLine={false}
+                        />
                         <YAxis tick={{ fontSize: 11 }} tickLine={false} />
                         <Tooltip />
                         <Legend verticalAlign="bottom" height={24} />
@@ -629,7 +624,7 @@ export function AnalyticsAccessDashboard({
                             <Cell key={item.name} fill={item.color} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value) => `${value}%`} />
+                        <Tooltip formatter={(value: any) => `${value}%`} />
                       </PieChart>
                     </ResponsiveContainer>
                   )}
@@ -662,14 +657,19 @@ export function AnalyticsAccessDashboard({
               },
             ].map((item) => (
               <div key={item.title} className="flex gap-4">
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${item.color}`}>
+                <div
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md ${item.color}`}
+                >
                   {item.icon === "up" && <TrendIcon />}
                   {item.icon === "medal" && <MedalIcon />}
-                  {item.icon === "group" && <GraduationIcon />}
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-slate-900">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-600">{item.text}</p>
+                  <h3 className="text-sm font-bold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-600">
+                    {item.text}
+                  </p>
                 </div>
               </div>
             ))}
@@ -678,14 +678,9 @@ export function AnalyticsAccessDashboard({
 
         <section className={cardClass}>
           <div className="flex flex-col gap-4 px-5 py-5 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-sm font-bold text-slate-950">
-                Top Performing Students
-              </h2>
-              <p className="mt-1 text-xs text-slate-500">
-                Read-only view ({accessLabel} access)
-              </p>
-            </div>
+            <h2 className="text-sm font-bold text-slate-950">
+              Top Performing Students
+            </h2>
             <div className="flex flex-col gap-3 sm:flex-row">
               <label className="relative">
                 <svg
@@ -693,15 +688,23 @@ export function AnalyticsAccessDashboard({
                   viewBox="0 0 24 24"
                   fill="none"
                 >
-                  <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path
+                    d="m16 16 4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
                 </svg>
                 <input
                   value={search}
-                  onChange={(event) => {
-                    setSearch(event.target.value);
-                    setPage(1);
-                  }}
+                  onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search students or programs..."
                   className="h-9 w-full rounded-md border border-slate-200 pl-9 pr-3 text-xs outline-none transition focus:border-cyan-700 focus:ring-2 focus:ring-cyan-100 sm:w-80"
                 />
@@ -722,7 +725,9 @@ export function AnalyticsAccessDashboard({
                   <th className="px-5 py-3 font-semibold">GPA</th>
                   <th className="px-5 py-3 font-semibold">Term</th>
                   <th className="px-5 py-3 font-semibold">Award Date</th>
-                  <th className="px-5 py-3 text-right font-semibold">Actions</th>
+                  <th className="px-5 py-3 text-right font-semibold">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -731,22 +736,27 @@ export function AnalyticsAccessDashboard({
                     <td className="px-5 py-4 font-semibold text-slate-900">
                       {student.name}
                     </td>
-                    <td className="px-5 py-4 text-slate-600">{student.program}</td>
-                    <td className="px-5 py-4 text-slate-600">{student.yearLevel}</td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {student.program}
+                    </td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {student.yearLevel}
+                    </td>
                     <td className="px-5 py-4">
                       <span className="rounded-full bg-amber-400 px-2.5 py-1 text-[11px] font-bold text-white">
                         {student.gpa.toFixed(2)}
                       </span>
                     </td>
                     <td className="px-5 py-4 text-slate-600">{student.term}</td>
-                    <td className="px-5 py-4 text-slate-600">{student.awardDate}</td>
+                    <td className="px-5 py-4 text-slate-600">
+                      {student.awardDate}
+                    </td>
                     <td className="px-5 py-4 text-right">
                       <button
                         onClick={() => setSelectedStudent(student)}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-md text-cyan-700 transition hover:bg-slate-100"
-                        aria-label={`View ${student.name}`}
+                        className="h-7 w-7 rounded-md text-cyan-700"
                       >
-                        <EyeIcon />
+                        View
                       </button>
                     </td>
                   </tr>
@@ -757,37 +767,22 @@ export function AnalyticsAccessDashboard({
 
           <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-4 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between">
             <span>
-              Showing {firstShown} to {lastShown} of {filteredStudents.length} records
+              Showing {firstShown} to {lastShown} of {filteredStudents.length}{" "}
+              records
             </span>
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setPage((current) => Math.max(1, current - 1))}
-                disabled={page === 1}
-                className="h-8 w-8 rounded-md border border-slate-200 text-slate-400 disabled:opacity-50"
+                onClick={() => setPage((c) => Math.max(1, c - 1))}
+                className="h-8 w-8 rounded-md border border-slate-200 text-slate-400"
               >
                 &lt;
               </button>
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-                (pageNumber) => (
-                  <button
-                    key={pageNumber}
-                    onClick={() => setPage(pageNumber)}
-                    className={`h-8 w-8 rounded-md border text-xs font-semibold ${
-                      page === pageNumber
-                        ? "border-[#0f5b78] bg-[#0f5b78] text-white"
-                        : "border-slate-200 text-slate-600"
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                )
-              )}
+              <button className="h-8 w-8 rounded-md bg-[#0f5b78] font-semibold text-white">
+                {page}
+              </button>
               <button
-                onClick={() =>
-                  setPage((current) => Math.min(totalPages, current + 1))
-                }
-                disabled={page === totalPages}
-                className="h-8 w-8 rounded-md border border-slate-200 text-slate-600 disabled:opacity-50"
+                onClick={() => setPage((c) => Math.min(totalPages, c + 1))}
+                className="h-8 w-8 rounded-md border border-slate-200 text-slate-600"
               >
                 &gt;
               </button>
@@ -805,8 +800,4 @@ export function AnalyticsAccessDashboard({
       )}
     </main>
   );
-}
-
-export default function RegistrarDashboardPage() {
-  return <AnalyticsAccessDashboard accessLabel="Registrar" />;
 }

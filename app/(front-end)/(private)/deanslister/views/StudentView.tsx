@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { RoleSwitcher } from "../components/RoleSwitcher";
 
 const gpaHistory = [
   { term: "2023-1", gpa: 3.78 },
@@ -79,7 +78,12 @@ function TrendIcon() {
 
 function CalendarIcon() {
   return (
-    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg
+      className="h-3.5 w-3.5"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M7 4v3M17 4v3M4 9h16M5 6h14v14H5V6Z"
         stroke="currentColor"
@@ -97,16 +101,12 @@ function StatCard({
   icon,
   tone,
   valueClass = "text-slate-950",
-}: {
-  label: string;
-  value: string;
-  icon: React.ReactNode;
-  tone: string;
-  valueClass?: string;
-}) {
+}: any) {
   return (
     <section className={`${cardClass} flex items-center gap-4 p-5`}>
-      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${tone}`}>
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${tone}`}
+      >
         {icon}
       </div>
       <div>
@@ -119,7 +119,7 @@ function StatCard({
   );
 }
 
-export default function StudentPage() {
+export default function StudentView() {
   const [chartsReady, setChartsReady] = useState(false);
 
   useEffect(() => {
@@ -140,7 +140,6 @@ export default function StudentPage() {
               Learning Management System - Academic Excellence Tracking
             </p>
           </div>
-          <RoleSwitcher />
         </div>
       </header>
 
@@ -194,9 +193,16 @@ export default function StudentPage() {
           <div className="h-80 p-5">
             {chartsReady && (
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={gpaHistory} margin={{ left: 0, right: 18, top: 10 }}>
+                <LineChart
+                  data={gpaHistory}
+                  margin={{ left: 0, right: 18, top: 10 }}
+                >
                   <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 3" />
-                  <XAxis dataKey="term" tick={{ fontSize: 11 }} tickLine={false} />
+                  <XAxis
+                    dataKey="term"
+                    tick={{ fontSize: 11 }}
+                    tickLine={false}
+                  />
                   <YAxis
                     domain={[3, 4.1]}
                     ticks={[3, 3.25, 3.5, 3.75, 4, 4.1]}

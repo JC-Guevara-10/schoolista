@@ -82,15 +82,24 @@ export async function authAction(
         // log and continue — user was created in auth; application data can be retried
         return { success: false, error: studentsError.message };
       }
+
       return { success: true };
     } else {
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      return { success: !error, error: error?.message };
-    }
 
+      if (error) {
+        console.log(error);
+        return {
+          success: false,
+          error:
+            "An unexpected error occurred while signing in. Please try again.",
+        };
+      }
+      return { success: true };
+    }
   } catch (err) {
     console.error("Error inserting profile rows", err);
     return { success: false, error: "An error occurred" };

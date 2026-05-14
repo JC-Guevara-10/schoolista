@@ -34,6 +34,9 @@ export default function SignIn({ onSwitch }: { onSwitch: () => void }) {
       setError(res.error || "Sign in failed");
       setSubmitting(false);
       return;
+    } else {
+      // redirect to home page
+      window.location.href = "/dashboard"; // You can change this to the desired page after sign-in
     }
 
     setSubmitting(false);

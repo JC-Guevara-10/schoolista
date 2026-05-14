@@ -11,7 +11,6 @@ export async function getServerUserFromCookies(): Promise<SupabaseUser | null> {
     cookieStore.get("sb-access-token")?.value ||
     cookieStore.get("access_token")?.value;
   if (!token) return null;
-  console.log(token);
   const user = await getUserFromToken(token);
   return user;
 }
